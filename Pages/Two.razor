@@ -1,0 +1,38 @@
+﻿@page "/two"
+
+<PageTitle>รายการสิ่งที่ต้องทำ</PageTitle>
+
+<h1>สิ่งที่ต้องทำ (@twos.Count(two => !two.IsDone))</h1>
+
+<ul>
+    @foreach (var two in twos)
+    {
+    <li>
+        <input type="checkbox" @bind="two.IsDone"/>
+        <input @bind="two.Title" />
+        <button @onclick="() => RemoveTodo(two)">ลบรายการ</button>
+    </li>
+    }
+</ul>
+
+<input placeholder="กรอกรายการที่นี้"  @bind="newTodo" />
+<button @onclick="AddTodo">เพิ่มรายการ</button>
+
+@code {
+    private List<TodoItem> twos =new();
+    private string? newTodo;
+
+    private void AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            twos.Add(new TodoItem { Title = newTodo});
+            newTodo = string.Empty;
+        }
+    }
+    private void RemoveTodo(TodoItem two)
+    {
+        twos.Remove(two);
+    }
+
+}
